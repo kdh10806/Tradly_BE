@@ -72,7 +72,8 @@ public class StrategyReviewController {
             @RequestBody Map<String, String> requestBody,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         String updatedContent = requestBody.get("content");
-        StrategyReviewDto updatedReview = strategyReviewService.updateReview(reviewId, userDetails.getMemberId(), updatedContent);
+        Boolean isAdmin = userDetails.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        StrategyReviewDto updatedReview = strategyReviewService.updateReview(strategyId, reviewId, userDetails.getMemberId(),isAdmin, updatedContent);
 
         // 메시지와 리뷰 데이터를 포함한 응답 생성
         Map<String, Object> response = Map.of(

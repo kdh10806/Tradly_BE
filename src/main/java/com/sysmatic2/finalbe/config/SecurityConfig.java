@@ -116,7 +116,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/strategies/registration-form","/api/strategies/{id}/update-form","/api/strategies/{id}/approval-request",
                                 "/api/strategies/{id}/rejection-info", "/api/strategies/{id}/termination", "/api/strategies/{id}/daily-data",
                                 "/api/strategies/{strategyId}/daily-data/{dailyDataId}", "/api/strategies/{strategyId}/daily-analyses/delete",
-                                "/api/strategies/{strategyId}/upload", "/api/strategies/{strategyId}/reviews/{reviewId}"
+                                "/api/strategies/{strategyId}/upload"
                         ).hasAnyRole("ADMIN", "TRADER") //전략 관련
                         .requestMatchers(HttpMethod.POST, "/api/strategies").hasAnyRole("ADMIN", "TRADER") //전략 등록
                         .requestMatchers(HttpMethod.DELETE, "/api/strategies").hasAnyRole("ADMIN", "TRADER") //전략 삭제
