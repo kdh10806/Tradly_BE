@@ -77,7 +77,7 @@ public class StrategyService {
     public StrategyRegistrationDto getStrategyRegistrationForm() {
         // TradingType, InvestmentAssetClass 및 TradingCycle 데이터를 각각 DTO 리스트로 변환
         List<TradingTypeRegistrationDto> tradingTypeDtos = convertToTradingTypeDtos(tradingTypeRepository.findByIsActiveOrderByTradingTypeOrderAsc("Y"));
-        List<InvestmentAssetClassesRegistrationDto> investmentAssetClassDtos = convertToInvestmentAssetClassDtos(investmentAssetClassesRepository.findByIsActiveOrderByOrderAsc("Y"));
+        List<InvestmentAssetClassesRegistrationDto> investmentAssetClassDtos = convertToInvestmentAssetClassDtos(investmentAssetClassesRepository.findByOrderByOrderAsc());
         List<TradingCycleRegistrationDto> tradingCycleDtos = convertToTradingCycleDtos(tradingCycleRepository.findByIsActiveOrderByTradingCycleOrderAsc("Y"));
 
         // DTO 설정 및 반환
@@ -768,7 +768,7 @@ public class StrategyService {
 
         //TradingType, InvestmentAssetClass 및 TradingCycle 데이터를 각각 DTO 리스트로 변환
         List<TradingTypeRegistrationDto> tradingTypeDtos = convertToTradingTypeDtos(tradingTypeRepository.findByIsActiveOrderByTradingTypeOrderAsc("Y"));
-        List<InvestmentAssetClassesRegistrationDto> investmentAssetClassDtos = convertToInvestmentAssetClassDtos(investmentAssetClassesRepository.findByIsActiveOrderByOrderAsc("Y"));
+        List<InvestmentAssetClassesRegistrationDto> investmentAssetClassDtos = convertToInvestmentAssetClassDtos(investmentAssetClassesRepository.findByOrderByOrderAsc());
         List<TradingCycleRegistrationDto> tradingCycleDtos = convertToTradingCycleDtos(tradingCycleRepository.findByIsActiveOrderByTradingCycleOrderAsc("Y"));
 
         // DTO 설정 및 반환
