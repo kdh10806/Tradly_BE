@@ -22,6 +22,6 @@ public interface InvestmentAssetClassesRepository extends JpaRepository<Investme
     //Pagination 적용
     Page<InvestmentAssetClassesEntity> findAll(Pageable pageable);
 
-    //전략 등록화면 투자자산목록 보내기 isActive = Y인 것만 출력, 순서 적용
-    List<InvestmentAssetClassesEntity> findByIsActiveOrderByOrderAsc(String isActive);
+    //전략 등록화면 투자자산목록 보내기, 순서 적용
+    List<InvestmentAssetClassesEntity> findByOrderByOrderAsc();
 }
