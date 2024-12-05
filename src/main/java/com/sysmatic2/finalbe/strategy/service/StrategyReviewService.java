@@ -105,7 +105,10 @@ public class StrategyReviewService {
      * 4. 리뷰 수정
      */
     @Transactional
-    public StrategyReviewDto updateReview(Long reviewId, String updaterId, String updatedContent) {
+    public StrategyReviewDto updateReview(Long strategyId, Long reviewId, String updaterId, Boolean isAdmin, String updatedContent) {
+        // 전략 존재 확인
+        strategyRepository.findById(strategyId).orElseThrow(() -> new StrategyNotFoundException("Strategy not found with ID:" + strategyId));
+
         // 리뷰 및 수정자 확인
         StrategyReviewEntity review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("Review not found with ID: " + reviewId));
@@ -114,7 +117,7 @@ public class StrategyReviewService {
                 .orElseThrow(() -> new MemberNotFoundException("Updater not found with ID: " + updaterId));
 
         //리뷰 수정은 작성자만 가능하다.
-        if(!review.getUpdaterId().equals(updaterId)){
+        if(!isAdmin && !review.getWriterId().getMemberId().equals(updaterId)){
             throw new AccessDeniedException("리뷰 수정은 작성자만 가능합니다.");
         }
 
