@@ -1,6 +1,5 @@
 package com.sysmatic2.finalbe.strategy.controller;
 
-import com.sysmatic2.finalbe.config.AuditorAwareImpl;
 import com.sysmatic2.finalbe.member.dto.CustomUserDetails;
 import com.sysmatic2.finalbe.member.repository.MemberRepository;
 import com.sysmatic2.finalbe.strategy.dto.*;
@@ -42,7 +41,6 @@ public class StrategyController {
     private final StrategyService strategyService;
     private final DailyStatisticsService dailyStatisticsService;
     private final MonthlyStatisticsService monthlyStatisticsService;
-    private final AuditorAwareImpl auditorAware;
     private final MemberRepository memberRepository;
     private final StrategyRepository strategyRepository;
 
@@ -416,7 +414,7 @@ public class StrategyController {
     }
 
     //14. 일간 분석 데이터 목록 조회
-    // TODO) isPosted = N or isApproved = N인 경우 작성자와 관리자만 조회할 수 있다.
+    //isPosted = N or isApproved = N인 경우 작성자와 관리자만 조회할 수 있다.
     /**
      * 특정 전략의 일간 분석 데이터를 최신일자순으로 페이징하여 반환합니다.
      *
@@ -513,6 +511,7 @@ public class StrategyController {
             @RequestParam(required = false) LocalDate startDate,
             @RequestParam(required = false) LocalDate EndDate,
             @RequestParam(required = false) String returnRateList,
+            @RequestParam(required = false) String keyword,
             @RequestParam(defaultValue = "0") @Min(0) Integer page,
             @RequestParam(defaultValue = "30") @Min(1) Integer pageSize)
     {
@@ -533,8 +532,14 @@ public class StrategyController {
         optionsPayload.setStartDate(startDate);
         optionsPayload.setEndDate(EndDate);
         optionsPayload.setReturnRateList(returnRateList);
+        optionsPayload.setKeyword(keyword);
 
-        Map<String, Object> responseData = strategyService.advancedSearch(optionsPayload, page, pageSize);
+        //상세 검색 실행
+        Map<String, Object> resultData = strategyService.advancedSearch(optionsPayload, page, pageSize);
+
+        //가변맵으로 변경
+        Map<String, Object> responseData = new HashMap<>(resultData);
+        responseData.put("keyword", keyword);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseData);
     }

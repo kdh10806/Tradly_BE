@@ -66,7 +66,7 @@ public class InvestmentAssetClassesService {
     //1-2. 투자자산 분류 목록(isActive = Y 인것만)
     @Transactional(readOnly = true)
     public List<InvestmentAssetClassesDto> getActiveList() throws Exception {
-        List<InvestmentAssetClassesEntity> iacList = iacRepository.findByIsActiveOrderByOrderAsc("Y");
+        List<InvestmentAssetClassesEntity> iacList = iacRepository.findByOrderByOrderAsc();
         List<InvestmentAssetClassesDto> resultList = new ArrayList<>();
 
         for(InvestmentAssetClassesEntity iacEntity : iacList){

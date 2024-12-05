@@ -77,7 +77,7 @@ public class StrategyService {
     public StrategyRegistrationDto getStrategyRegistrationForm() {
         // TradingType, InvestmentAssetClass 및 TradingCycle 데이터를 각각 DTO 리스트로 변환
         List<TradingTypeRegistrationDto> tradingTypeDtos = convertToTradingTypeDtos(tradingTypeRepository.findByIsActiveOrderByTradingTypeOrderAsc("Y"));
-        List<InvestmentAssetClassesRegistrationDto> investmentAssetClassDtos = convertToInvestmentAssetClassDtos(investmentAssetClassesRepository.findByIsActiveOrderByOrderAsc("Y"));
+        List<InvestmentAssetClassesRegistrationDto> investmentAssetClassDtos = convertToInvestmentAssetClassDtos(investmentAssetClassesRepository.findByOrderByOrderAsc());
         List<TradingCycleRegistrationDto> tradingCycleDtos = convertToTradingCycleDtos(tradingCycleRepository.findByIsActiveOrderByTradingCycleOrderAsc("Y"));
 
         // DTO 설정 및 반환
@@ -335,6 +335,7 @@ public class StrategyService {
         searchOptionsDto.setStartDate(searchOptionsPayload.getStartDate());
         searchOptionsDto.setEndDate(searchOptionsPayload.getEndDate());
         searchOptionsDto.setReturnRateList(returnRates);
+        searchOptionsDto.setKeyword(searchOptionsPayload.getKeyword());
 
         // 4. Repository 호출로 필터링된 전략 페이지 가져오기
         //2)필터객체, 페이지 객체넣고 db에서 데이터 가져오기
@@ -767,7 +768,7 @@ public class StrategyService {
 
         //TradingType, InvestmentAssetClass 및 TradingCycle 데이터를 각각 DTO 리스트로 변환
         List<TradingTypeRegistrationDto> tradingTypeDtos = convertToTradingTypeDtos(tradingTypeRepository.findByIsActiveOrderByTradingTypeOrderAsc("Y"));
-        List<InvestmentAssetClassesRegistrationDto> investmentAssetClassDtos = convertToInvestmentAssetClassDtos(investmentAssetClassesRepository.findByIsActiveOrderByOrderAsc("Y"));
+        List<InvestmentAssetClassesRegistrationDto> investmentAssetClassDtos = convertToInvestmentAssetClassDtos(investmentAssetClassesRepository.findByOrderByOrderAsc());
         List<TradingCycleRegistrationDto> tradingCycleDtos = convertToTradingCycleDtos(tradingCycleRepository.findByIsActiveOrderByTradingCycleOrderAsc("Y"));
 
         // DTO 설정 및 반환

@@ -279,12 +279,15 @@ public class GlobalExceptionHandler {
     }
 
     // 409: 데이터 충돌
-    @ExceptionHandler({DataIntegrityViolationException.class, DuplicateTradingTypeOrderException.class, DuplicateTradingCycleOrderException.class, MemberAlreadyExistsException.class})
+    @ExceptionHandler({DataIntegrityViolationException.class, DuplicateTradingTypeOrderException.class,
+            DuplicateTradingCycleOrderException.class, MemberAlreadyExistsException.class,
+            DeleteTradingTypeStrategyExistException.class})
     public ResponseEntity<Object> handleConflictExceptions(Exception ex) {
         logger.error("Data conflict: {}", ex.getMessage());
 
         String message;
-        if (ex instanceof DuplicateTradingTypeOrderException || ex instanceof DuplicateTradingCycleOrderException || ex instanceof MemberAlreadyExistsException) {
+        if (ex instanceof DuplicateTradingTypeOrderException || ex instanceof DuplicateTradingCycleOrderException
+                || ex instanceof MemberAlreadyExistsException || ex instanceof DeleteTradingTypeStrategyExistException) {
             message = ex.getMessage();
         } else {
             message = "데이터베이스 제약 조건을 위반했습니다.";
@@ -377,6 +380,24 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleDuplicateFollowingStrategyException(DuplicateFollowingStrategyException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
                 "error", "DUPLICATE_FOLLOWING_STRATEGY",
+                "message", ex.getMessage()
+        ));
+    }
+
+    // 403: 폴더 삭제 권한이 없을 때
+    @ExceptionHandler(FolderDeletePermissionException.class)
+    public ResponseEntity<Object> handleFolderDeletePermissionException(FolderDeletePermissionException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                "error", "FOLDER_DELETE_FORBIDDEN",
+                "message", ex.getMessage()
+        ));
+    }
+
+    // 403: 폴더 권한이 없을 때
+    @ExceptionHandler(FolderPermissionException.class)
+    public ResponseEntity<Object> handleFolderPermissionException(FolderPermissionException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                "error", "FOLDER_FORBIDDEN",
                 "message", ex.getMessage()
         ));
     }
